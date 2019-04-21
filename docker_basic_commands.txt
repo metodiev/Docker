@@ -1,0 +1,157 @@
+sudo service docker restart
+sudo service docker start
+docker version
+docker -v
+docker info
+
+docker images --help
+docker run --help
+docker rmi --help
+docker ps --help
+docker system prune --help
+
+docker images -q
+docker images - a
+docker pull
+
+
+sudo docker run ubuntu
+docker run -it ubuntu
+
+
+docker ps
+docker start docker_id_contaiter
+docker stop docker_id_container
+docker stats
+docker system df 
+docker system prune
+docker system prune -a
+docker inspect conteiner_name
+
+//create container
+docker run hello-world
+
+docker run ubuntu:18.04
+
+docker run --name ubuntu1 -it ubuntu
+docker top conteiner_name
+docker attach container_id
+
+
+docker kill ubuntu1
+docker start ubuntu1
+docker rm ubuntu1
+
+//jenkins
+
+docker pull jenkins
+docker create volume myjenkins
+docker volume inspect myjenkins
+docker run --name jenkins -p 8080:8080 -p 50000:50000 -v /home/miroslav/Documents/DevOps/jenkins:/var/jenkins_home jenkins
+
+docker run --name jenkins1 -p 9090:8080 -p 50000:50000 -v myjenkins:/var/jenkins_home jenkins
+
+docker run --name myjenkins -p 8080:8080 -p 50000:50000 -v /var/jenkins_home jenkins
+
+//dockerfile
+docker build
+docker build .
+
+docker build -t myimage1:1.0 .
+
+https://github.com/wsargent/docker-cheat-sheet#dockerfile
+
+//docker compose
+docker-compose -v
+
+curl -L https://github.com/docker/compose/releases/download/1.24.0/docker-compose-`uname -s`-`uname -m` -o /usr/local/bin/docker-compose
+chmod +x /usr/local/bin/docker-compose
+
+docker-compose config
+
+docker-compose up -d
+
+docker-compose down
+
+docker-compose up -d --scale database=4
+
+docker-compose --help
+
+//docker volumes
+
+docker info
+docker volume --help
+docker volume create myvolume
+docker volume ls
+docker volume inspect myvolume
+
+docker volume rm myvolume
+docker volume prune 
+docker run --name MyJenkins2 -v jenkinsvolume:/var/jenkins_home -p 9090:8080 -p 60000:50000 jenkins
+
+docker run --name MyJenkins3 -v jenkinsvolume:/var/jenkins_home -p 9090:8080 -p 60000:50000 jenkins
+
+//docker swarm
+
+base=https://github.com/docker/machine/releases/download/v0.16.0 &&
+  curl -L $base/docker-machine-$(uname -s)-$(uname -m) >/tmp/docker-machine &&
+  sudo install /tmp/docker-machine /usr/local/bin/docker-machine
+
+
+docker-machine version
+
+docker-machine create --driver virtualbox manager1
+docker-machine create --driver virtualbox worker1
+docker-machine create --driver virtualbox worker2
+docker-machine env manager1
+
+docker-machine ls
+docker-machine ip manager1
+
+docker-machine ssh manager1
+docker-machine ssh worker1
+docker-machine ssh worker2
+
+//inside manager1 machine
+docker swarm init --advertise-addr 192.168.99.100
+
+docker node ls
+
+docker swarm join-token worker
+
+docker info
+
+docker swarm join --token SWMTKN-1-5r74w6kzs135p7pziytrqz7ihhzko3wgbtov99xpblfma8npeh-2ovq5infc2rka6pqtil7qv12c 192.168.99.100:2377
+
+docker swarm
+
+docker service create --replicas 3 -p 80:80 --name sericeName nginx
+
+docker-machine 
+
+docker service ls
+
+docker service ps sericeName
+
+//scale the service
+docker service scale sericeName=4
+
+docker service ps sericeName
+
+docker node inspect worker1
+docker node inspect worker2
+
+docker node inspect self
+
+docker sertice update --image nginx:1.14.0 sericeName
+
+//shutdown node
+docker service update --availability drain worker1
+
+
+docker service rm serviceName
+docker swarm leave
+docker-machine stop worker1
+
+docker-machine rm worker1
+
